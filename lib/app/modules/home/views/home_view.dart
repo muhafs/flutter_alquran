@@ -41,7 +41,7 @@ class HomeView extends GetView<HomeController> {
                     title: Text(surah.name.transliteration.en),
                     subtitle: Text(
                         '${surah.numberOfVerses} Ayah | ${surah.revelation.id}'),
-                    trailing: Text(surah.name.long),
+                    trailing: Text(surah.name.short),
                   );
                 });
           }),
