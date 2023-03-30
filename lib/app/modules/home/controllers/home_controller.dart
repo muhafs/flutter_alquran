@@ -20,7 +20,8 @@ class HomeController extends GetxController {
 
       return allSurah;
     } else {
-      throw Exception('Somthing went wrong while fetching data');
+      throw Exception(
+          'Somthing went wrong while fetching list of all surah data');
     }
   }
 }

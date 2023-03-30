@@ -8,8 +8,8 @@ class SurahDetail {
     required this.numberOfVerses,
     required this.name,
     required this.revelation,
-    required this.tafsir,
-    required this.preBismillah,
+    this.tafsir,
+    this.preBismillah,
     required this.verses,
   });
 
@@ -18,8 +18,8 @@ class SurahDetail {
   int numberOfVerses;
   Name name;
   Revelation revelation;
-  SurahDetailTafsir tafsir;
-  PreBismillah preBismillah;
+  SurahDetailTafsir? tafsir;
+  PreBismillah? preBismillah;
   List<Verse> verses;
 
   factory SurahDetail.fromJson(Map<String, dynamic> json) => SurahDetail(
@@ -28,8 +28,12 @@ class SurahDetail {
         numberOfVerses: json["numberOfVerses"],
         name: Name.fromJson(json["name"]),
         revelation: Revelation.fromJson(json["revelation"]),
-        tafsir: SurahDetailTafsir.fromJson(json["tafsir"]),
-        preBismillah: PreBismillah.fromJson(json["preBismillah"]),
+        tafsir: json["tafsir"] == null
+            ? null
+            : SurahDetailTafsir.fromJson(json["tafsir"]),
+        preBismillah: json["preBismillah"] == null
+            ? null
+            : PreBismillah.fromJson(json["preBismillah"]),
         verses: List<Verse>.from(json["verses"].map((x) => Verse.fromJson(x))),
       );
 
@@ -39,8 +43,8 @@ class SurahDetail {
         "numberOfVerses": numberOfVerses,
         "name": name.toJson(),
         "revelation": revelation.toJson(),
-        "tafsir": tafsir.toJson(),
-        "preBismillah": preBismillah.toJson(),
+        "tafsir": tafsir?.toJson(),
+        "preBismillah": preBismillah?.toJson(),
         "verses": List<dynamic>.from(verses.map((x) => x.toJson())),
       };
 }
