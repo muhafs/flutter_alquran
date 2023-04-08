@@ -114,12 +114,12 @@ class PreBismillah {
     this.audio,
   });
 
-  Text? text;
+  AyahText? text;
   Translation? translation;
   Audio? audio;
 
   factory PreBismillah.fromJson(Map<String, dynamic> json) => PreBismillah(
-        text: json["text"] == null ? null : Text.fromJson(json["text"]),
+        text: json["text"] == null ? null : AyahText.fromJson(json["text"]),
         translation: json["translation"] == null
             ? null
             : Translation.fromJson(json["translation"]),
@@ -157,8 +157,8 @@ class Audio {
       };
 }
 
-class Text {
-  Text({
+class AyahText {
+  AyahText({
     this.arab,
     this.transliteration,
   });
@@ -166,7 +166,7 @@ class Text {
   String? arab;
   Transliteration? transliteration;
 
-  factory Text.fromJson(Map<String, dynamic> json) => Text(
+  factory AyahText.fromJson(Map<String, dynamic> json) => AyahText(
         arab: json["arab"],
         transliteration: json["transliteration"] == null
             ? null
@@ -248,7 +248,7 @@ class Verse {
 
   Number? number;
   Meta? meta;
-  Text? text;
+  AyahText? text;
   Translation? translation;
   Audio? audio;
   VerseTafsir? tafsir;
@@ -256,7 +256,7 @@ class Verse {
   factory Verse.fromJson(Map<String, dynamic> json) => Verse(
         number: json["number"] == null ? null : Number.fromJson(json["number"]),
         meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
-        text: json["text"] == null ? null : Text.fromJson(json["text"]),
+        text: json["text"] == null ? null : AyahText.fromJson(json["text"]),
         translation: json["translation"] == null
             ? null
             : Translation.fromJson(json["translation"]),
