@@ -8,7 +8,7 @@ void main() {
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Quran Ibn Hafs",
+      title: "Qurani",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),
