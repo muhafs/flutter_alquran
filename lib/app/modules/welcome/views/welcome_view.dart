@@ -15,7 +15,7 @@ class WelcomeView extends GetView<WelcomeController> {
       body: Container(
         padding: const EdgeInsets.all(30.0),
         alignment: Alignment.center,
-        color: const Color(0xFFB0DAFF),
+        color: const Color(0xFF1D2233),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -25,18 +25,20 @@ class WelcomeView extends GetView<WelcomeController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Quran Ibn Hafs',
+                    'Al Quran App',
                     style: GoogleFonts.poppins(
-                      fontSize: 25,
+                      color: Colors.white,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Aplikasi ini insyallah menjadi amal jariyah al hafsin makki jazuli',
+                    'Learn Quran and\nRecite once everyday',
                     style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFFA19CC5),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -49,14 +51,25 @@ class WelcomeView extends GetView<WelcomeController> {
               margin: const EdgeInsets.only(bottom: 20),
               child: Lottie.asset('assets/lotties/transparent_couple.json'),
             ),
-            TextButton(
-              onPressed: () => Get.offNamed(Routes.HOME),
-              style: TextButton.styleFrom(
-                backgroundColor: const Color(0xFFEB455F),
-              ),
-              child: Text(
-                'Get Started',
-                style: GoogleFonts.poppins(color: Colors.white),
+            SizedBox(
+              width: 185,
+              height: 60,
+              child: TextButton(
+                onPressed: () => Get.offNamed(Routes.HOME),
+                style: TextButton.styleFrom(
+                  backgroundColor: const Color(0xFFF9B091),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                child: Text(
+                  'Get Started',
+                  style: GoogleFonts.poppins(
+                    color: const Color(0xFF091945),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
           ],

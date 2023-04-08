@@ -13,82 +13,132 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
+        backgroundColor: const Color(0xFF1D2233),
+        title: Text(
+          'Quran App',
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
-      body: FutureBuilder<List<Surah>>(
-        future: controller.getAllSurah(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+      body: Container(
+        color: const Color(0xFF10121A),
+        child: FutureBuilder<List<Surah>>(
+          future: controller.getAllSurah(),
+          builder: (context, snapshot) {
+            //? Loading
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          if (!snapshot.hasData) {
-            return const Center(
-              child: Text('No Data Available'),
-            );
-          }
+            //? Error
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text('No Data Available'),
+              );
+            }
 
-          return GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 5 / 4,
-            ),
-            padding: const EdgeInsets.all(10),
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              Surah surah = snapshot.data![index];
+            //? Loaded
+            return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 5 / 4,
+              ),
+              padding: const EdgeInsets.all(10),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                Surah surah = snapshot.data![index];
 
-              return GestureDetector(
-                onTap: () => Get.toNamed(Routes.SURAH_DETAIL, arguments: surah),
-                child: Card(
-                  color: Colors.white70,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CircleAvatar(
-                                child: Text('${surah.number}'),
-                              ),
-                              Text(surah.name.short),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          child: Text(
-                            surah.name.transliteration.en,
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                return GestureDetector(
+                  onTap: () =>
+                      Get.toNamed(Routes.SURAH_DETAIL, arguments: surah),
+                  child: Card(
+                    color: const Color(0xFF1D2233),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/icon_ayah.png',
+                                      width: 36,
+                                    ),
+                                    Text(
+                                      '${surah.number}',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  surah.name?.short ?? 'Error',
+                                  style: GoogleFonts.amiri(
+                                    color: const Color(0xFFA44AFF),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${surah.numberOfVerses} Ayah'),
-                            Text(surah.revelation.id),
-                          ],
-                        ),
-                      ],
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            child: Text(
+                              surah.name?.transliteration?.en ?? 'error',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${surah.numberOfVerses} Ayah',
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFA19CC5),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Text(
+                                surah.revelation?.id ?? 'error',
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFA19CC5),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
-          );
-        },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

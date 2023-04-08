@@ -16,7 +16,8 @@ class SurahDetailView extends GetView<SurahDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Surah ${surah.name.transliteration.en}'),
+        title: Text(
+            'Surah ${surah.name?.transliteration?.en ?? 'something went error'}'),
         centerTitle: true,
       ),
       body: ListView(
@@ -28,21 +29,21 @@ class SurahDetailView extends GetView<SurahDetailController> {
               child: Column(
                 children: [
                   Text(
-                    surah.name.transliteration.en,
+                    surah.name?.transliteration?.en ?? 'something went error',
                     style: GoogleFonts.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    '(${surah.name.translation.en})',
+                    '(${surah.name?.translation?.en ?? 'something went error'})',
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    '${surah.numberOfVerses} Ayah | ${surah.revelation.id}',
+                    '${surah.numberOfVerses} Ayah | ${surah.revelation?.id ?? 'error'}',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -54,7 +55,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
           ),
           const SizedBox(height: 20),
           FutureBuilder<detail.SurahDetail>(
-            future: controller.getSurahDetail(surah.number),
+            future: controller.getSurahDetail(surah.number!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -74,7 +75,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: surah.numberOfVerses,
                   itemBuilder: (context, index) {
-                    detail.Verse? ayah = snapshot.data?.verses[index];
+                    detail.Verse? ayah = snapshot.data?.verses?[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -111,7 +112,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           margin: const EdgeInsets.only(bottom: 20),
                           child: Text(
-                            ayah!.text.arab,
+                            ayah!.text?.arab ?? 'Something went error',
                             style: GoogleFonts.poppins(
                               fontSize: 25,
                             ),
@@ -122,7 +123,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           margin: const EdgeInsets.only(bottom: 10),
                           child: Text(
-                            ayah.translation.en,
+                            ayah.translation?.en ?? 'Something went error',
                             style: GoogleFonts.poppins(
                               color: Colors.black45,
                               fontSize: 16,
@@ -135,7 +136,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           margin: const EdgeInsets.only(bottom: 50),
                           child: Text(
-                            ayah.translation.id,
+                            ayah.translation?.id ?? 'Something went error',
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                             ),
