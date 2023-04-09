@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:flutter_alquran/app/data/models/surah_detail_model.dart';
+import 'package:flutter_alquran/app/data/models/surah_detail.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 

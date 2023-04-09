@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_alquran/app/data/models/surah_detail_model.dart'
-    as detail;
-import 'package:flutter_alquran/app/data/models/surah_model.dart';
+import 'package:flutter_alquran/app/data/models/ayah.dart';
+import 'package:flutter_alquran/app/data/models/surah_detail.dart';
+import 'package:flutter_alquran/app/data/models/surah.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,7 +74,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
               ),
             ),
             const SizedBox(height: 20),
-            FutureBuilder<detail.SurahDetail>(
+            FutureBuilder<SurahDetail>(
               future: controller.getSurahDetail(surah.number!),
               builder: (context, snapshot) {
                 //? Loading
@@ -97,7 +97,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: surah.numberOfVerses,
                   itemBuilder: (context, index) {
-                    detail.Verse? ayah = snapshot.data?.verses?[index];
+                    Ayah? ayah = snapshot.data?.verses?[index];
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
