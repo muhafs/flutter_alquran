@@ -57,7 +57,7 @@ class HomeView extends GetView<HomeController> {
 
                 return GestureDetector(
                   onTap: () =>
-                      Get.toNamed(Routes.SURAH_DETAIL, arguments: surah),
+                      Get.toNamed(Routes.surahDetail, arguments: surah),
                   child: Card(
                     color: const Color(0xFF1D2233),
                     child: Padding(

@@ -55,7 +55,7 @@ class WelcomeView extends GetView<WelcomeController> {
               width: 185,
               height: 60,
               child: TextButton(
-                onPressed: () => Get.offNamed(Routes.HOME),
+                onPressed: () => Get.offNamed(Routes.home),
                 style: TextButton.styleFrom(
                   backgroundColor: const Color(0xFFF9B091),
                   shape: RoundedRectangleBorder(
