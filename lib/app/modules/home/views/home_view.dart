@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_alquran/app/constants/colors.dart';
+import 'package:flutter_alquran/app/constants/textstyles.dart';
 import 'package:flutter_alquran/app/data/models/surah.dart';
 import 'package:flutter_alquran/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -13,18 +14,18 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1D2233),
+        backgroundColor: kColorPrimary,
         title: Text(
           'Quran App',
-          style: GoogleFonts.poppins(
+          style: kTextStylePoppins.copyWith(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontWeight: bold,
           ),
         ),
         centerTitle: true,
       ),
       body: Container(
-        color: const Color(0xFF10121A),
+        color: kColorBg,
         child: FutureBuilder<List<Surah>>(
           future: controller.getAllSurah(),
           builder: (context, snapshot) {
@@ -59,7 +60,7 @@ class HomeView extends GetView<HomeController> {
                   onTap: () =>
                       Get.toNamed(Routes.surahDetail, arguments: surah),
                   child: Card(
-                    color: const Color(0xFF1D2233),
+                    color: kColorPrimary,
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
@@ -79,20 +80,19 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                     Text(
                                       '${surah.number}',
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.white,
+                                      style: kTextStylePoppins.copyWith(
                                         fontSize: 12,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight: bold,
                                       ),
                                     ),
                                   ],
                                 ),
                                 Text(
                                   surah.name?.short ?? 'Error',
-                                  style: GoogleFonts.amiri(
-                                    color: const Color(0xFFA44AFF),
+                                  style: kTextStyleAmiri.copyWith(
+                                    color: kTextColorPurple,
                                     fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: bold,
                                   ),
                                 ),
                               ],
@@ -102,10 +102,9 @@ class HomeView extends GetView<HomeController> {
                             margin: const EdgeInsets.only(bottom: 12),
                             child: Text(
                               surah.name?.transliteration?.en ?? 'error',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
+                              style: kTextStylePoppins.copyWith(
                                 fontSize: 16,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: medium,
                               ),
                             ),
                           ),
@@ -114,18 +113,18 @@ class HomeView extends GetView<HomeController> {
                             children: [
                               Text(
                                 '${surah.numberOfVerses} Ayah',
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xFFA19CC5),
+                                style: kTextStylePoppins.copyWith(
+                                  color: kTextColorGray,
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: medium,
                                 ),
                               ),
                               Text(
                                 surah.revelation?.id ?? 'error',
-                                style: GoogleFonts.poppins(
-                                  color: const Color(0xFFA19CC5),
+                                style: kTextStylePoppins.copyWith(
+                                  color: kTextColorGray,
                                   fontSize: 12,
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: medium,
                                 ),
                               ),
                             ],

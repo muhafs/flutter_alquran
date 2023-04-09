@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_alquran/app/constants/colors.dart';
+import 'package:flutter_alquran/app/constants/textstyles.dart';
 import 'package:flutter_alquran/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../controllers/welcome_controller.dart';
@@ -15,7 +16,7 @@ class WelcomeView extends GetView<WelcomeController> {
       body: Container(
         padding: const EdgeInsets.all(30.0),
         alignment: Alignment.center,
-        color: const Color(0xFF1D2233),
+        color: kColorPrimary,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -26,19 +27,17 @@ class WelcomeView extends GetView<WelcomeController> {
                 children: [
                   Text(
                     'Al Quran App',
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
+                    style: kTextStylePoppins.copyWith(
                       fontSize: 28,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: bold,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     'Learn Quran and\nRecite once everyday',
-                    style: GoogleFonts.poppins(
-                      color: const Color(0xFFA19CC5),
+                    style: kTextStylePoppins.copyWith(
+                      color: kTextColorGray,
                       fontSize: 18,
-                      fontWeight: FontWeight.w400,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -57,17 +56,17 @@ class WelcomeView extends GetView<WelcomeController> {
               child: TextButton(
                 onPressed: () => Get.offNamed(Routes.home),
                 style: TextButton.styleFrom(
-                  backgroundColor: const Color(0xFFF9B091),
+                  backgroundColor: kColorButton,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
                 child: Text(
                   'Get Started',
-                  style: GoogleFonts.poppins(
-                    color: const Color(0xFF091945),
+                  style: kTextStylePoppins.copyWith(
+                    color: kColorPrimary,
                     fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: semibold,
                   ),
                 ),
               ),

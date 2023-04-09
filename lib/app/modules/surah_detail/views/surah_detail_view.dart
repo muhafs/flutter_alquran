@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_alquran/app/constants/colors.dart';
+import 'package:flutter_alquran/app/constants/textstyles.dart';
 import 'package:flutter_alquran/app/data/models/ayah.dart';
 import 'package:flutter_alquran/app/data/models/surah_detail.dart';
 import 'package:flutter_alquran/app/data/models/surah.dart';
 
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../controllers/surah_detail_controller.dart';
 
@@ -17,57 +18,54 @@ class SurahDetailView extends GetView<SurahDetailController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1D2233),
+        backgroundColor: kColorPrimary,
         title: Text(
           surah.name?.transliteration?.en ?? 'something went error',
-          style: GoogleFonts.poppins(
+          style: kTextStylePoppins.copyWith(
             fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontWeight: bold,
           ),
         ),
         centerTitle: true,
       ),
       body: Container(
-        color: const Color(0xFF10121A),
+        color: kColorBg,
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
             Container(
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
-                color: const Color(0xFF1D2233),
+                color: kColorPrimary,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 children: [
                   Text(
                     surah.name?.transliteration?.en ?? 'something went error',
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
+                    style: kTextStylePoppins.copyWith(
                       fontSize: 26,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: medium,
                     ),
                   ),
                   Text(
                     '(${surah.name?.translation?.en ?? 'something went error'})',
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
+                    style: kTextStylePoppins.copyWith(
                       fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: medium,
                     ),
                   ),
                   const Divider(
                     height: 30,
                     endIndent: 30,
                     indent: 30,
-                    color: Colors.white,
+                    color: kTextColorLight,
                   ),
                   Text(
                     '${surah.numberOfVerses} Ayah | ${surah.revelation?.id ?? 'error'}',
-                    style: GoogleFonts.poppins(
-                      color: Colors.white,
+                    style: kTextStylePoppins.copyWith(
                       fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: medium,
                     ),
                   ),
                 ],
@@ -109,7 +107,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                             vertical: 5,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF121931),
+                            color: kColorPrimary,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Row(
@@ -124,10 +122,9 @@ class SurahDetailView extends GetView<SurahDetailController> {
                                   ),
                                   Text(
                                     '${index + 1}',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
+                                    style: kTextStylePoppins.copyWith(
                                       fontSize: 12,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: bold,
                                     ),
                                   ),
                                 ],
@@ -138,14 +135,14 @@ class SurahDetailView extends GetView<SurahDetailController> {
                                     onPressed: () {},
                                     icon: const Icon(
                                       Icons.bookmark_border_outlined,
-                                      color: Color(0xFFA44AFF),
+                                      color: kTextColorPurple,
                                     ),
                                   ),
                                   IconButton(
                                     onPressed: () {},
                                     icon: const Icon(
                                       Icons.play_arrow,
-                                      color: Color(0xFFA44AFF),
+                                      color: kTextColorPurple,
                                     ),
                                   ),
                                 ],
@@ -158,10 +155,9 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           margin: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             ayah!.text?.arab ?? 'Something went error',
-                            style: GoogleFonts.amiri(
-                              color: Colors.white,
+                            style: kTextStyleAmiri.copyWith(
                               fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: bold,
                             ),
                             textAlign: TextAlign.right,
                           ),
@@ -171,8 +167,8 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           margin: const EdgeInsets.only(bottom: 10),
                           child: Text(
                             ayah.translation?.en ?? 'Something went error',
-                            style: GoogleFonts.poppins(
-                              color: const Color(0xFFA19CC5),
+                            style: kTextStylePoppins.copyWith(
+                              color: kTextColorGray,
                               fontSize: 16,
                               fontStyle: FontStyle.italic,
                             ),
@@ -180,15 +176,15 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           ),
                         ),
                         const Divider(
-                          color: Color(0xFFA19CC5),
+                          color: kTextColorGray,
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           margin: const EdgeInsets.only(bottom: 50),
                           child: Text(
                             ayah.translation?.id ?? 'Something went error',
-                            style: GoogleFonts.poppins(
-                              color: const Color(0xFFA19CC5),
+                            style: kTextStylePoppins.copyWith(
+                              color: kTextColorGray,
                               fontSize: 16,
                             ),
                             textAlign: TextAlign.justify,
