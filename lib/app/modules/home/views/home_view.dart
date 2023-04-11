@@ -13,9 +13,9 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kColorPrimary,
+      backgroundColor: kColorBg,
       appBar: AppBar(
-        backgroundColor: kColorPrimary,
+        backgroundColor: kColorBg,
         elevation: 0,
         title: Text(
           'Quran App',
@@ -30,7 +30,10 @@ class HomeView extends GetView<HomeController> {
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: IconButton(
               onPressed: () => Get.toNamed(Routes.search),
-              icon: const Icon(Icons.search),
+              icon: const Icon(
+                Icons.search,
+                color: kTextColorGray,
+              ),
             ),
           ),
         ],
@@ -188,7 +191,9 @@ class HomeView extends GetView<HomeController> {
                       //? Loading
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: kTextColorPurple,
+                          ),
                         );
                       }
 
@@ -366,7 +371,7 @@ class HomeView extends GetView<HomeController> {
 //             onTap: () =>
 //                 Get.toNamed(Routes.surahDetail, arguments: surah),
 //             child: Card(
-//               color: kColorPrimary,
+//               color: kColorBg,
 //               child: Padding(
 //                 padding: const EdgeInsets.all(10.0),
 //                 child: Column(
