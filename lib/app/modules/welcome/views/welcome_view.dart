@@ -16,7 +16,7 @@ class WelcomeView extends GetView<WelcomeController> {
       body: Container(
         padding: const EdgeInsets.all(30.0),
         alignment: Alignment.center,
-        color: kColorPrimary,
+        color: kColorBg,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

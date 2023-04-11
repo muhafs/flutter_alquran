@@ -50,64 +50,92 @@ class SurahDetailView extends GetView<SurahDetailController> {
                   Color(0xFF9055FF),
                 ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Stack(children: [
-              Positioned(
-                bottom: -38,
-                right: -55,
-                child: Opacity(
-                  opacity: 0.1,
-                  child: Image.asset(
-                    'assets/images/quran.png',
-                    width: 324,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: () {
+                  Get.defaultDialog(
+                    backgroundColor: kColorSecondary,
+                    radius: 10,
+                    titlePadding: const EdgeInsets.symmetric(vertical: 16),
+                    title: 'Tafsir',
+                    titleStyle: kTextStylePoppins.copyWith(
+                      fontSize: 18,
+                      fontWeight: bold,
+                    ),
+                    content: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        surah.tafsir?.id ?? 'Error',
+                        style: kTextStylePoppins.copyWith(
+                          fontWeight: semibold,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Stack(children: [
+                  Positioned(
+                    bottom: -38,
+                    right: -55,
+                    child: Opacity(
+                      opacity: 0.1,
+                      child: Image.asset(
+                        'assets/images/quran.png',
+                        width: 324,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(30),
-                child: Column(
-                  children: [
-                    Text(
-                      surah.name?.transliteration?.en ?? 'something went error',
-                      style: kTextStylePoppins.copyWith(
-                        fontSize: 26,
-                        fontWeight: medium,
-                      ),
-                    ),
-                    Text(
-                      '(${surah.name?.translation?.en ?? 'something went error'})',
-                      style: kTextStylePoppins.copyWith(
-                        fontSize: 16,
-                        fontWeight: medium,
-                      ),
-                    ),
-                    const Divider(
-                      height: 30,
-                      endIndent: 30,
-                      indent: 30,
-                      color: kTextColorLight,
-                    ),
-                    Text(
-                      '${surah.numberOfVerses} Ayah | ${surah.revelation?.id ?? 'error'}',
-                      style: kTextStylePoppins.copyWith(
-                        fontSize: 14,
-                        fontWeight: medium,
-                      ),
-                    ),
-                    surah.number == 1 || surah.number == 9
-                        ? const SizedBox()
-                        : Container(
-                            margin: const EdgeInsets.only(top: 32),
-                            child: Image.asset(
-                              'assets/images/bismillah.png',
-                              width: 214,
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      children: [
+                        Text(
+                          surah.name?.transliteration?.en ??
+                              'something went error',
+                          style: kTextStylePoppins.copyWith(
+                            fontSize: 26,
+                            fontWeight: medium,
                           ),
-                  ],
-                ),
+                        ),
+                        Text(
+                          '(${surah.name?.translation?.en ?? 'something went error'})',
+                          style: kTextStylePoppins.copyWith(
+                            fontSize: 16,
+                            fontWeight: medium,
+                          ),
+                        ),
+                        const Divider(
+                          height: 30,
+                          endIndent: 30,
+                          indent: 30,
+                          color: kTextColorLight,
+                        ),
+                        Text(
+                          '${surah.numberOfVerses} Ayah | ${surah.revelation?.id ?? 'error'}',
+                          style: kTextStylePoppins.copyWith(
+                            fontSize: 14,
+                            fontWeight: medium,
+                          ),
+                        ),
+                        surah.number == 1 || surah.number == 9
+                            ? const SizedBox()
+                            : Container(
+                                margin: const EdgeInsets.only(top: 32),
+                                child: Image.asset(
+                                  'assets/images/bismillah.png',
+                                  width: 214,
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                ]),
               ),
-            ]),
+            ),
           ),
           const SizedBox(height: 32),
           FutureBuilder<SurahDetail>(
@@ -200,6 +228,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           style: kTextStyleAmiri.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
+                            height: 2.5,
                           ),
                           textAlign: TextAlign.right,
                         ),
