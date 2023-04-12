@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_alquran/app/constants/colors.dart';
 import 'package:flutter_alquran/app/constants/textstyles.dart';
+import 'package:flutter_alquran/app/data/models/juz.dart';
 import 'package:flutter_alquran/app/data/models/surah.dart';
 import 'package:flutter_alquran/app/routes/app_pages.dart';
 
@@ -262,31 +263,80 @@ class HomeView extends GetView<HomeController> {
                       );
                     },
                   ),
-                  ListView.builder(
-                    itemCount: 30,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                        ),
-                        leading: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/images/icon_ayah.png',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
+                  FutureBuilder<List<Juz>>(
+                    future: controller.getAllJuz(),
+                    builder: (context, snapshot) {
+                      //? Loading
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            color: kTextColorPurple,
                           ),
-                          child: Center(
-                            child: Text(
-                              (index + 1).toString(),
-                              style: kTextStylePoppins,
+                        );
+                      }
+
+                      //? Error
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: Text('No Data Available'),
+                        );
+                      }
+
+                      //? Loaded
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          Juz juz = snapshot.data![index];
+
+                          return ListTile(
+                            onTap: () => Get.toNamed(
+                              Routes.juzDetail,
+                              arguments: juz,
                             ),
-                          ),
-                        ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                            ),
+                            leading: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/images/icon_ayah.png',
+                                  width: 36,
+                                ),
+                                Text(
+                                  '${juz.juz}',
+                                  style: kTextStylePoppins.copyWith(
+                                    fontSize: 12,
+                                    fontWeight: bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            title: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  juz.juzStartInfo ?? 'error',
+                                  style: kTextStylePoppins.copyWith(
+                                    color: kTextColorGray,
+                                    fontSize: 14,
+                                    fontWeight: bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  juz.juzEndInfo ?? 'Error',
+                                  style: kTextStylePoppins.copyWith(
+                                    color: kTextColorGray,
+                                    fontSize: 14,
+                                    fontWeight: bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
