@@ -312,25 +312,33 @@ class HomeView extends GetView<HomeController> {
                                 ),
                               ],
                             ),
-                            title: Column(
+                            title: Text(
+                              'Juz ${juz.juz ?? 'error'}',
+                              style: kTextStylePoppins.copyWith(
+                                fontSize: 16,
+                                fontWeight: medium,
+                              ),
+                            ),
+                            isThreeLine: true,
+                            subtitle: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  juz.juzStartInfo ?? 'error',
+                                  'From ${juz.juzStartInfo ?? 'error'}',
                                   style: kTextStylePoppins.copyWith(
                                     color: kTextColorGray,
-                                    fontSize: 14,
-                                    fontWeight: bold,
+                                    fontSize: 12,
+                                    fontWeight: medium,
                                   ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  juz.juzEndInfo ?? 'Error',
+                                  'To ${juz.juzEndInfo ?? 'Error'}',
                                   style: kTextStylePoppins.copyWith(
                                     color: kTextColorGray,
-                                    fontSize: 14,
-                                    fontWeight: bold,
+                                    fontSize: 12,
+                                    fontWeight: medium,
                                   ),
                                 ),
                               ],

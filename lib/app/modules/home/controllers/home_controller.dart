@@ -5,45 +5,66 @@ import 'dart:convert';
 import 'package:flutter_alquran/app/data/models/juz.dart';
 import 'package:flutter_alquran/app/data/models/surah.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
+  final box = GetStorage();
+
   Future<List<Surah>> getAllSurah() async {
-    Uri url = Uri.parse('https://al-quraan-api.vercel.app/surah');
+    List<dynamic> responseData;
 
-    var response = await http.get(url);
+    if (box.read('list_surah') != null) {
+      responseData = json.decode(box.read('list_surah'));
 
-    if (response.statusCode == 200) {
-      List data = json.decode(response.body)['data'];
-
-      List<Surah> allSurah =
-          data.map((surah) => Surah.fromJson(surah)).toList();
-
-      return allSurah;
+      print('data is fetched from storage');
     } else {
-      throw Exception(
-          'Somthing went wrong while fetching list of all surah data');
-    }
-  }
-
-  Future<List<Juz>> getAllJuz() async {
-    List<Juz> allJuz = [];
-
-    for (int i = 1; i <= 30; i++) {
-      Uri url = Uri.parse('https://al-quraan-api.vercel.app/juz/$i');
+      Uri url = Uri.parse('https://al-quraan-api.vercel.app/surah');
 
       var response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body)['data'];
+      response.statusCode == 200
+          ? responseData = json.decode(response.body)['data']
+          : throw Exception(
+              'Somthing went wrong while fetching all surah data');
 
-        Juz juz = Juz.fromJson(data);
-
-        allJuz.add(juz);
-      } else {
-        throw Exception('Somthing went wrong while fetching Juz data');
-      }
+      box.write('list_surah', json.encode(responseData));
+      print('data is fetched from api');
     }
+
+    List<Surah> allSurah =
+        responseData.map((surah) => Surah.fromJson(surah)).toList();
+
+    return allSurah;
+  }
+
+  Future<List<Juz>> getAllJuz() async {
+    List<dynamic> responseData;
+
+    if (box.read('list_juz') != null) {
+      responseData = json.decode(box.read('list_juz'));
+
+      print('data is fetched from storage');
+    } else {
+      List<Map<String, dynamic>> responseDataList = [];
+
+      for (int i = 1; i <= 30; i++) {
+        Uri url = Uri.parse('https://al-quraan-api.vercel.app/juz/$i');
+
+        var response = await http.get(url);
+
+        response.statusCode == 200
+            ? responseDataList.add(json.decode(response.body)['data'])
+            : throw Exception('Somthing went wrong while fetching Juz data');
+      }
+
+      responseData = responseDataList;
+
+      box.write('list_juz', json.encode(responseData));
+      print('data is fetched from api');
+    }
+
+    List<Juz> allJuz = responseData.map((juz) => Juz.fromJson(juz)).toList();
 
     return allJuz;
   }
