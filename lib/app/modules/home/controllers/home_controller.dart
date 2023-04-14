@@ -9,13 +9,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
-  final box = GetStorage();
+  final _box = GetStorage();
 
   Future<List<Surah>> getAllSurah() async {
     List<dynamic> responseData;
 
-    if (box.read('list_surah') != null) {
-      responseData = json.decode(box.read('list_surah'));
+    if (_box.read('list_surah') != null) {
+      responseData = json.decode(_box.read('list_surah'));
 
       print('data is fetched from storage');
     } else {
@@ -28,7 +28,7 @@ class HomeController extends GetxController {
           : throw Exception(
               'Somthing went wrong while fetching all surah data');
 
-      box.write('list_surah', json.encode(responseData));
+      _box.write('list_surah', json.encode(responseData));
       print('data is fetched from api');
     }
 
@@ -41,8 +41,8 @@ class HomeController extends GetxController {
   Future<List<Juz>> getAllJuz() async {
     List<dynamic> responseData;
 
-    if (box.read('list_juz') != null) {
-      responseData = json.decode(box.read('list_juz'));
+    if (_box.read('list_juz') != null) {
+      responseData = json.decode(_box.read('list_juz'));
 
       print('data is fetched from storage');
     } else {
@@ -60,7 +60,7 @@ class HomeController extends GetxController {
 
       responseData = responseDataList;
 
-      box.write('list_juz', json.encode(responseData));
+      _box.write('list_juz', json.encode(responseData));
       print('data is fetched from api');
     }
 
