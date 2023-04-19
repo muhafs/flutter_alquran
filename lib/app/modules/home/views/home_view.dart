@@ -227,7 +227,7 @@ class HomeView extends GetView<HomeController> {
                                   width: 36,
                                 ),
                                 Text(
-                                  '${surah.number}',
+                                  '${surah.id}',
                                   style: kTextStylePoppins.copyWith(
                                     fontSize: 12,
                                     fontWeight: bold,
@@ -236,14 +236,14 @@ class HomeView extends GetView<HomeController> {
                               ],
                             ),
                             title: Text(
-                              surah.name?.transliteration?.en ?? 'error',
+                              surah.nameSimple ?? 'error',
                               style: kTextStylePoppins.copyWith(
                                 fontSize: 16,
                                 fontWeight: medium,
                               ),
                             ),
                             subtitle: Text(
-                              '${surah.revelation?.en} • ${surah.numberOfVerses} Ayah',
+                              '${surah.revelationPlace} • ${surah.versesCount} Ayah',
                               style: kTextStylePoppins.copyWith(
                                 color: kTextColorGray,
                                 fontSize: 12,
@@ -251,7 +251,7 @@ class HomeView extends GetView<HomeController> {
                               ),
                             ),
                             trailing: Text(
-                              surah.name?.short ?? 'Error',
+                              surah.nameArabic ?? 'Error',
                               style: kTextStyleAmiri.copyWith(
                                 color: kTextColorPurple,
                                 fontSize: 20,
@@ -288,10 +288,36 @@ class HomeView extends GetView<HomeController> {
                         itemBuilder: (context, index) {
                           Juz juz = snapshot.data![index];
 
+                          List<double> listOfKeys = juz.verseMapping!.keys
+                              .map((key) => double.parse(key))
+                              .toList();
+
+                          List<Surah> surahInJuz = [];
+                          for (var surah in controller.allSurahData) {
+                            double surahID = surah.id!.toDouble();
+                            if (listOfKeys.contains(surahID)) {
+                              surahInJuz.add(surah);
+                            }
+                          }
+
+                          double juzFirstSurah =
+                              double.parse(juz.verseMapping!.keys.first);
+
+                          Surah firstSurahInJuz =
+                              controller.allSurahData.firstWhere((surah) {
+                            return juzFirstSurah == surah.id!.toDouble();
+                          });
+
+                          int juzFirstAyah = int.parse(
+                              juz.verseMapping!.values.first.split('-')[0]);
+
                           return ListTile(
                             onTap: () => Get.toNamed(
                               Routes.juzDetail,
-                              arguments: juz,
+                              arguments: {
+                                'juz': juz,
+                                'surah': surahInJuz,
+                              },
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 24,
@@ -304,7 +330,7 @@ class HomeView extends GetView<HomeController> {
                                   width: 36,
                                 ),
                                 Text(
-                                  '${juz.juz}',
+                                  '${juz.id}',
                                   style: kTextStylePoppins.copyWith(
                                     fontSize: 12,
                                     fontWeight: bold,
@@ -313,35 +339,27 @@ class HomeView extends GetView<HomeController> {
                               ],
                             ),
                             title: Text(
-                              'Juz ${juz.juz ?? 'error'}',
+                              'Juz ${juz.id ?? 'error'}',
                               style: kTextStylePoppins.copyWith(
                                 fontSize: 16,
                                 fontWeight: medium,
                               ),
                             ),
-                            isThreeLine: true,
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'From ${juz.juzStartInfo ?? 'error'}',
-                                  style: kTextStylePoppins.copyWith(
-                                    color: kTextColorGray,
-                                    fontSize: 12,
-                                    fontWeight: medium,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'To ${juz.juzEndInfo ?? 'Error'}',
-                                  style: kTextStylePoppins.copyWith(
-                                    color: kTextColorGray,
-                                    fontSize: 12,
-                                    fontWeight: medium,
-                                  ),
-                                ),
-                              ],
+                            subtitle: Text(
+                              'From Ayah $juzFirstAyah',
+                              style: kTextStylePoppins.copyWith(
+                                color: kTextColorGray,
+                                fontSize: 12,
+                                fontWeight: medium,
+                              ),
+                            ),
+                            trailing: Text(
+                              firstSurahInJuz.nameArabic ?? 'error',
+                              style: kTextStyleAmiri.copyWith(
+                                color: kTextColorPurple,
+                                fontSize: 20,
+                                fontWeight: bold,
+                              ),
                             ),
                           );
                         },
@@ -363,148 +381,3 @@ class HomeView extends GetView<HomeController> {
     );
   }
 }
-
-// flexibleSpace: SafeArea(
-//   child: Center(
-//     child: Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 24),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//         children: [
-//           Text(
-//             'Quran App',
-//             style: kTextStylePoppins.copyWith(
-//               fontSize: 20,
-//               fontWeight: bold,
-//             ),
-//           ),
-//           IconButton(
-//             onPressed: () {
-//               Get.toNamed(Routes.search);
-//             },
-//             icon: const Icon(
-//               Icons.search,
-//               color: kTextColorLight,
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   ),
-// ),
-
-// body: Container(
-//   color: kColorBg,
-//   child: FutureBuilder<List<Surah>>(
-//     future: controller.getAllSurah(),
-//     builder: (context, snapshot) {
-//       //? Loading
-//       if (snapshot.connectionState == ConnectionState.waiting) {
-//         return const Center(
-//           child: CircularProgressIndicator(),
-//         );
-//       }
-
-//       //? Error
-//       if (!snapshot.hasData) {
-//         return const Center(
-//           child: Text('No Data Available'),
-//         );
-//       }
-
-//       //? Loaded
-//       return GridView.builder(
-//         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//           crossAxisCount: 2,
-//           crossAxisSpacing: 10,
-//           mainAxisSpacing: 10,
-//           childAspectRatio: 5 / 4,
-//         ),
-//         padding: const EdgeInsets.all(10),
-//         itemCount: snapshot.data!.length,
-//         itemBuilder: (context, index) {
-//           Surah surah = snapshot.data![index];
-
-//           return GestureDetector(
-//             onTap: () =>
-//                 Get.toNamed(Routes.surahDetail, arguments: surah),
-//             child: Card(
-//               color: kColorBg,
-//               child: Padding(
-//                 padding: const EdgeInsets.all(10.0),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.stretch,
-//                   children: [
-//                     Container(
-//                       margin: const EdgeInsets.only(bottom: 12),
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: [
-//                           Stack(
-//                             alignment: Alignment.center,
-//                             children: [
-//                               Image.asset(
-//                                 'assets/images/icon_ayah.png',
-//                                 width: 36,
-//                               ),
-//                               Text(
-//                                 '${surah.number}',
-//                                 style: kTextStylePoppins.copyWith(
-//                                   fontSize: 12,
-//                                   fontWeight: bold,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                           Text(
-//                             surah.name?.short ?? 'Error',
-//                             style: kTextStyleAmiri.copyWith(
-//                               color: kTextColorPurple,
-//                               fontSize: 20,
-//                               fontWeight: bold,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                     Container(
-//                       margin: const EdgeInsets.only(bottom: 12),
-//                       child: Text(
-//                         surah.name?.transliteration?.en ?? 'error',
-//                         style: kTextStylePoppins.copyWith(
-//                           fontSize: 16,
-//                           fontWeight: medium,
-//                         ),
-//                       ),
-//                     ),
-//                     Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: [
-//                         Text(
-//                           '${surah.numberOfVerses} Ayah',
-//                           style: kTextStylePoppins.copyWith(
-//                             color: kTextColorGray,
-//                             fontSize: 12,
-//                             fontWeight: medium,
-//                           ),
-//                         ),
-//                         Text(
-//                           surah.revelation?.id ?? 'error',
-//                           style: kTextStylePoppins.copyWith(
-//                             color: kTextColorGray,
-//                             fontSize: 12,
-//                             fontWeight: medium,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           );
-//         },
-//       );
-//     },
-//   ),
-// ),

@@ -41,7 +41,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.juzDetail,
-      page: () => const JuzDetailView(),
+      page: () => JuzDetailView(),
       binding: JuzDetailBinding(),
     ),
   ];

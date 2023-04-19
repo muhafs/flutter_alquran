@@ -2,20 +2,23 @@
 
 import 'dart:convert';
 
-import 'package:flutter_alquran/app/data/models/surah_detail.dart';
+import 'package:flutter_alquran/app/data/models/ayah.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class SurahDetailController extends GetxController {
-  Future<SurahDetail> getSurahDetail(int surahNumber) async {
-    Uri url = Uri.parse('https://al-quraan-api.vercel.app/surah/$surahNumber');
+  final String baseURL = 'https://api.quran.com/api/v4';
+
+  Future<List<Ayah>> getSurahDetail(int surahNumber) async {
+    Uri url = Uri.parse(
+        '$baseURL/verses/by_chapter/$surahNumber?language=en&fields=text_uthmani,chapter_id&translations=131&per_page=1000');
 
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
-      var data = json.decode(response.body)['data'];
+      List<dynamic> data = json.decode(response.body)['verses'];
 
-      SurahDetail surah = SurahDetail.fromJson(data);
+      List<Ayah> surah = data.map((ayah) => Ayah.fromJson(ayah)).toList();
 
       return surah;
     } else {

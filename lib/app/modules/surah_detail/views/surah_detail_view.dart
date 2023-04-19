@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_alquran/app/constants/colors.dart';
 import 'package:flutter_alquran/app/constants/textstyles.dart';
 import 'package:flutter_alquran/app/data/models/ayah.dart';
-import 'package:flutter_alquran/app/data/models/surah_detail.dart';
 import 'package:flutter_alquran/app/data/models/surah.dart';
 
 import 'package:get/get.dart';
+import 'package:html/parser.dart';
 
 import '../controllers/surah_detail_controller.dart';
 
@@ -29,7 +29,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
           ),
         ),
         title: Text(
-          surah.name?.transliteration?.en ?? 'something went error',
+          surah.nameSimple ?? 'something went error',
           style: kTextStylePoppins.copyWith(
             fontSize: 20,
             fontWeight: bold,
@@ -69,7 +69,8 @@ class SurahDetailView extends GetView<SurahDetailController> {
                     content: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
-                        surah.tafsir?.id ?? 'Error',
+                        // surah.tafsir?.id ?? 'Error',
+                        'Tafsir will be coming soon',
                         style: kTextStylePoppins.copyWith(
                           fontWeight: semibold,
                         ),
@@ -94,15 +95,14 @@ class SurahDetailView extends GetView<SurahDetailController> {
                     child: Column(
                       children: [
                         Text(
-                          surah.name?.transliteration?.en ??
-                              'something went error',
+                          surah.nameSimple ?? 'something went error',
                           style: kTextStylePoppins.copyWith(
                             fontSize: 26,
                             fontWeight: medium,
                           ),
                         ),
                         Text(
-                          '(${surah.name?.translation?.en ?? 'something went error'})',
+                          '(${surah.translatedName?.name ?? 'something went error'})',
                           style: kTextStylePoppins.copyWith(
                             fontSize: 16,
                             fontWeight: medium,
@@ -115,13 +115,13 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           color: kTextColorLight,
                         ),
                         Text(
-                          '${surah.numberOfVerses} Ayah | ${surah.revelation?.id ?? 'error'}',
+                          '${surah.versesCount} Ayah | ${surah.revelationPlace ?? 'error'}',
                           style: kTextStylePoppins.copyWith(
                             fontSize: 14,
                             fontWeight: medium,
                           ),
                         ),
-                        surah.number == 1 || surah.number == 9
+                        surah.id == 1 || surah.id == 9
                             ? const SizedBox()
                             : Container(
                                 margin: const EdgeInsets.only(top: 32),
@@ -138,8 +138,8 @@ class SurahDetailView extends GetView<SurahDetailController> {
             ),
           ),
           const SizedBox(height: 32),
-          FutureBuilder<SurahDetail>(
-            future: controller.getSurahDetail(surah.number!),
+          FutureBuilder<List<Ayah>>(
+            future: controller.getSurahDetail(surah.id!),
             builder: (context, snapshot) {
               //? Loading
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -161,9 +161,9 @@ class SurahDetailView extends GetView<SurahDetailController> {
               return ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: surah.numberOfVerses,
+                itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
-                  Ayah? ayah = snapshot.data?.verses?[index];
+                  Ayah? ayah = snapshot.data?[index];
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -189,7 +189,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                                   width: 27,
                                 ),
                                 Text(
-                                  '${index + 1}',
+                                  '${ayah?.verseNumber ?? '0'}',
                                   style: kTextStylePoppins.copyWith(
                                     fontSize: 10,
                                     fontWeight: bold,
@@ -224,7 +224,7 @@ class SurahDetailView extends GetView<SurahDetailController> {
                       Container(
                         margin: const EdgeInsets.only(bottom: 16),
                         child: Text(
-                          ayah!.text?.arab ?? 'Something went error',
+                          ayah?.textUthmani ?? 'error',
                           style: kTextStyleAmiri.copyWith(
                             fontSize: 18,
                             fontWeight: bold,
@@ -233,15 +233,6 @@ class SurahDetailView extends GetView<SurahDetailController> {
                           textAlign: TextAlign.right,
                         ),
                       ),
-                      Text(
-                        ayah.translation?.en ?? 'Something went error',
-                        style: kTextStylePoppins.copyWith(
-                          color: kTextColorGray,
-                          fontSize: 16,
-                          fontStyle: FontStyle.italic,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
                       const Divider(
                         color: kTextColorGray,
                         height: 32,
@@ -249,7 +240,10 @@ class SurahDetailView extends GetView<SurahDetailController> {
                       Container(
                         margin: const EdgeInsets.only(bottom: 32),
                         child: Text(
-                          ayah.translation?.id ?? 'Something went error',
+                          parse(ayah?.translations?[0].text)
+                                  .documentElement
+                                  ?.text ??
+                              'Something went error',
                           style: kTextStylePoppins.copyWith(
                             color: kTextColorGray,
                             fontSize: 16,
