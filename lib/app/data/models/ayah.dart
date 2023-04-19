@@ -1,49 +1,70 @@
-// URL: https://al-quraan-api.vercel.app/surah/112/1
-// get specific Ayah in Surah
-
-import 'package:flutter_alquran/app/data/models/audio.dart';
-import 'package:flutter_alquran/app/data/models/ayah_number.dart';
-import 'package:flutter_alquran/app/data/models/ayah_tafsir.dart';
-import 'package:flutter_alquran/app/data/models/ayah_text.dart';
-import 'package:flutter_alquran/app/data/models/meta.dart';
 import 'package:flutter_alquran/app/data/models/translation.dart';
 
 class Ayah {
   Ayah({
-    this.number,
-    this.meta,
-    this.text,
-    this.translation,
-    this.audio,
-    this.tafsir,
+    this.id,
+    this.verseNumber,
+    this.verseKey,
+    this.hizbNumber,
+    this.rubElHizbNumber,
+    this.rukuNumber,
+    this.manzilNumber,
+    this.sajdahNumber,
+    this.textUthmani,
+    this.chapterId,
+    this.pageNumber,
+    this.juzNumber,
+    this.translations,
   });
 
-  AyahNumber? number;
-  Meta? meta;
-  AyahText? text;
-  Translation? translation;
-  Audio? audio;
-  AyahTafsir? tafsir;
+  int? id;
+  int? verseNumber;
+  String? verseKey;
+  int? hizbNumber;
+  int? rubElHizbNumber;
+  int? rukuNumber;
+  int? manzilNumber;
+  dynamic sajdahNumber;
+  String? textUthmani;
+  int? chapterId;
+  int? pageNumber;
+  int? juzNumber;
+  List<Translation>? translations;
 
   factory Ayah.fromJson(Map<String, dynamic> json) => Ayah(
-        number:
-            json["number"] == null ? null : AyahNumber.fromJson(json["number"]),
-        meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
-        text: json["text"] == null ? null : AyahText.fromJson(json["text"]),
-        translation: json["translation"] == null
-            ? null
-            : Translation.fromJson(json["translation"]),
-        audio: json["audio"] == null ? null : Audio.fromJson(json["audio"]),
-        tafsir:
-            json["tafsir"] == null ? null : AyahTafsir.fromJson(json["tafsir"]),
+        id: json["id"],
+        verseNumber: json["verse_number"],
+        verseKey: json["verse_key"],
+        hizbNumber: json["hizb_number"],
+        rubElHizbNumber: json["rub_el_hizb_number"],
+        rukuNumber: json["ruku_number"],
+        manzilNumber: json["manzil_number"],
+        sajdahNumber: json["sajdah_number"],
+        textUthmani: json["text_uthmani"],
+        chapterId: json["chapter_id"],
+        pageNumber: json["page_number"],
+        juzNumber: json["juz_number"],
+        translations: json["translations"] == null
+            ? []
+            : List<Translation>.from(
+                json["translations"]!.map((x) => Translation.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "number": number?.toJson(),
-        "meta": meta?.toJson(),
-        "text": text?.toJson(),
-        "translation": translation?.toJson(),
-        "audio": audio?.toJson(),
-        "tafsir": tafsir?.toJson(),
+        "id": id,
+        "verse_number": verseNumber,
+        "verse_key": verseKey,
+        "hizb_number": hizbNumber,
+        "rub_el_hizb_number": rubElHizbNumber,
+        "ruku_number": rukuNumber,
+        "manzil_number": manzilNumber,
+        "sajdah_number": sajdahNumber,
+        "text_uthmani": textUthmani,
+        "chapter_id": chapterId,
+        "page_number": pageNumber,
+        "juz_number": juzNumber,
+        "translations": translations == null
+            ? []
+            : List<dynamic>.from(translations!.map((x) => x.toJson())),
       };
 }

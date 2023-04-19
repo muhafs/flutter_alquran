@@ -1,19 +1,23 @@
 class Translation {
   Translation({
-    this.en,
     this.id,
+    this.resourceId,
+    this.text,
   });
 
-  String? en;
-  String? id;
+  int? id;
+  int? resourceId;
+  String? text;
 
   factory Translation.fromJson(Map<String, dynamic> json) => Translation(
-        en: json["en"],
         id: json["id"],
+        resourceId: json["resource_id"],
+        text: json["text"],
       );
 
   Map<String, dynamic> toJson() => {
-        "en": en,
         "id": id,
+        "resource_id": resourceId,
+        "text": text,
       };
 }

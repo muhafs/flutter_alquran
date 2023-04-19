@@ -1,48 +1,37 @@
-// URL: https://al-quraan-api.vercel.app/juz/1
-// get specific Juz in Quran
-
-import 'package:flutter_alquran/app/data/models/ayah.dart';
-
 class Juz {
   Juz({
-    this.juz,
-    this.juzStartSurahNumber,
-    this.juzEndSurahNumber,
-    this.juzStartInfo,
-    this.juzEndInfo,
-    this.totalVerses,
-    this.verses,
+    this.id,
+    this.juzNumber,
+    this.verseMapping,
+    this.firstVerseId,
+    this.lastVerseId,
+    this.versesCount,
   });
 
-  int? juz;
-  int? juzStartSurahNumber;
-  int? juzEndSurahNumber;
-  String? juzStartInfo;
-  String? juzEndInfo;
-  int? totalVerses;
-  List<Ayah>? verses;
+  int? id;
+  int? juzNumber;
+  Map<String, dynamic>? verseMapping;
+  int? firstVerseId;
+  int? lastVerseId;
+  int? versesCount;
 
   factory Juz.fromJson(Map<String, dynamic> json) => Juz(
-        juz: json["juz"],
-        juzStartSurahNumber: json["juzStartSurahNumber"],
-        juzEndSurahNumber: json["juzEndSurahNumber"],
-        juzStartInfo: json["juzStartInfo"],
-        juzEndInfo: json["juzEndInfo"],
-        totalVerses: json["totalVerses"],
-        verses: json["verses"] == null
-            ? []
-            : List<Ayah>.from(json["verses"]!.map((x) => Ayah.fromJson(x))),
+        id: json["id"],
+        juzNumber: json["juz_number"],
+        verseMapping: Map.from(json["verse_mapping"]!)
+            .map((k, v) => MapEntry<String, String>(k, v)),
+        firstVerseId: json["first_verse_id"],
+        lastVerseId: json["last_verse_id"],
+        versesCount: json["verses_count"],
       );
 
   Map<String, dynamic> toJson() => {
-        "juz": juz,
-        "juzStartSurahNumber": juzStartSurahNumber,
-        "juzEndSurahNumber": juzEndSurahNumber,
-        "juzStartInfo": juzStartInfo,
-        "juzEndInfo": juzEndInfo,
-        "totalVerses": totalVerses,
-        "verses": verses == null
-            ? []
-            : List<dynamic>.from(verses!.map((x) => x.toJson())),
+        "id": id,
+        "juz_number": juzNumber,
+        "verse_mapping": Map.from(verseMapping!)
+            .map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "first_verse_id": firstVerseId,
+        "last_verse_id": lastVerseId,
+        "verses_count": versesCount,
       };
 }

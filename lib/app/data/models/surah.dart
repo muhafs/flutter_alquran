@@ -1,46 +1,57 @@
-// URL: https://al-quraan-api.vercel.app/surah
-// get list of all Surah in Al Quran
-
-import 'package:flutter_alquran/app/data/models/revelation.dart';
-import 'package:flutter_alquran/app/data/models/surah_name.dart';
-import 'package:flutter_alquran/app/data/models/surah_tafsir.dart';
+import 'package:flutter_alquran/app/data/models/translated_name.dart';
 
 class Surah {
   Surah({
-    this.number,
-    this.sequence,
-    this.numberOfVerses,
-    this.name,
-    this.revelation,
-    this.tafsir,
+    this.id,
+    this.revelationPlace,
+    this.revelationOrder,
+    this.bismillahPre,
+    this.nameSimple,
+    this.nameComplex,
+    this.nameArabic,
+    this.versesCount,
+    this.pages,
+    this.translatedName,
   });
 
-  int? number;
-  int? sequence;
-  int? numberOfVerses;
-  SurahName? name;
-  Revelation? revelation;
-  SurahTafsir? tafsir;
+  int? id;
+  String? revelationPlace;
+  int? revelationOrder;
+  bool? bismillahPre;
+  String? nameSimple;
+  String? nameComplex;
+  String? nameArabic;
+  int? versesCount;
+  List<int>? pages;
+  TranslatedName? translatedName;
 
   factory Surah.fromJson(Map<String, dynamic> json) => Surah(
-        number: json["number"],
-        sequence: json["sequence"],
-        numberOfVerses: json["numberOfVerses"],
-        name: json["name"] == null ? null : SurahName.fromJson(json["name"]),
-        revelation: json["revelation"] == null
+        id: json["id"],
+        revelationPlace: json["revelation_place"],
+        revelationOrder: json["revelation_order"],
+        bismillahPre: json["bismillah_pre"],
+        nameSimple: json["name_simple"],
+        nameComplex: json["name_complex"],
+        nameArabic: json["name_arabic"],
+        versesCount: json["verses_count"],
+        pages: json["pages"] == null
+            ? []
+            : List<int>.from(json["pages"]!.map((x) => x)),
+        translatedName: json["translated_name"] == null
             ? null
-            : Revelation.fromJson(json["revelation"]),
-        tafsir: json["tafsir"] == null
-            ? null
-            : SurahTafsir.fromJson(json["tafsir"]),
+            : TranslatedName.fromJson(json["translated_name"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "number": number,
-        "sequence": sequence,
-        "numberOfVerses": numberOfVerses,
-        "name": name?.toJson(),
-        "revelation": revelation?.toJson(),
-        "tafsir": tafsir?.toJson(),
+        "id": id,
+        "revelation_place": revelationPlace,
+        "revelation_order": revelationOrder,
+        "bismillah_pre": bismillahPre,
+        "name_simple": nameSimple,
+        "name_complex": nameComplex,
+        "name_arabic": nameArabic,
+        "verses_count": versesCount,
+        "pages": pages == null ? [] : List<dynamic>.from(pages!.map((x) => x)),
+        "translated_name": translatedName?.toJson(),
       };
 }
